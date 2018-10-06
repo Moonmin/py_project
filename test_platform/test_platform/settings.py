@@ -52,10 +52,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'test_platform.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,"templates")],#指定templates目录
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,3 +120,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#指定静态文件目录
+
+print("BASE_DIR1=",BASE_DIR)
+STATICFILES_DIRS = [
+   os.path.join(BASE_DIR, 'static/user_app')
+]
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'

@@ -19,5 +19,9 @@ from user_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index),
+    path('accounts/login/', views.index),#绕过登录访问首页时，跳转回登录页面
     path('login_action/',views.login_action),
+    path("project_manage/",views.project_manage),
+    path("logout/", views.logout)
+
 ]
