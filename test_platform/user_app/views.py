@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import auth
+from .models import Project
 
 # Create your views here
 
@@ -53,10 +54,42 @@ def project_manage(request):
     # cuser_name = request.COOKIES.get("cuser_name","")
     # print("cuser_name=",cuser_name)
     cuser_name = request.session.get("cuser_name","")
-    return render(request,"project_manage.html",{"cuser_name":cuser_name})
+    latest_project_list = Project.objects.all()
+    #print("latest_project_id=",latest_project_list.get(pname="项目1"))
+    #context = {"latest_project_list":latest_project_list}
+
+    return render(request,"project_manage.html",{"cuser_name":cuser_name,"latest_project_list":latest_project_list})
 
 #退出功能
 def logout(request):
     auth.logout(request) #清除用户登录状态
     return HttpResponseRedirect("/") #重定向至登录页面
 
+#新增项目
+def add_project(request):
+    if request.method == 'POST':
+        #print("POSTPOSTPOST")
+        #新增提交
+        pname = request.POST.get("pname")
+        description = request.POST.get("description")
+        status = request.POST.get("status","False")
+        #print("status=",status)
+        Project.objects.create(pname=pname,description=description,status=status)
+        #跳转回首页
+        return HttpResponseRedirect("/project_manage/")
+    elif request.method == "GET":
+        #跳转新增页面
+        return render(request, "project_manage_add.html")
+
+#修改项目
+def edit_project(request,nid):
+    if request.method == "GET":
+        print("id=",id)
+        obj = Project.objects.get(id=nid)
+        return render(request,'project_manage_edit.html', {'obj': obj})
+    return ""
+
+
+#删除项目
+def delete_project(request):
+    return ""

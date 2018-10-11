@@ -22,6 +22,9 @@ urlpatterns = [
     path('accounts/login/', views.index),#绕过登录访问首页时，跳转回登录页面
     path('login_action/',views.login_action),
     path("project_manage/",views.project_manage),
-    path("logout/", views.logout)
+    path("logout/", views.logout),
+    path("project_manage_add/", views.add_project),
+    path(r"^project_manage_edit/(\d+)/$", views.edit_project),
+    path("project_manage_delete/(\d+)/$", views.delete_project)
 
 ]

@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>测试平台</title>
+     {% load static %}
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css " rel="stylesheet">
+    <!--<link href="{% static '/css/bootstrap.min.css' %} " rel="stylesheet">-->
+
+    <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
+
+    <!-- Custom styles for this template -->
+    <link href="https://v3.bootcss.com/examples/dashboard/dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a e >{{ cuser_name }}</a></li>
+            <li><a href="/logout/">退出</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">项目管理</a></li>
+            <li><a href="#">模块管理</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">用例管理</a></li>
+            <li><a href="">任务管理</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">mockserver</a></li>
+            <li><a href="">测试工具</a></li>
+          </ul>
+        </div>
+
+        <form class="form-signin" action="/login_action/" method="post">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h3 class="page-header">项目列表</h3>
+          <!--<button type="button" class="btn btn-primary "  >新增</button>-->
+          <a href="/project_manage_add" >新增</a>
+          <div class="table-responsive">
+
+             <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>项目名称</th>
+                  <th>描述</th>
+                  <th>状态</th>
+                  <th>创建时间</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for project_list in latest_project_list %}
+                <tr>
+                  <td>{{ project_list.pname }}</td>
+                  <td>{{ project_list.description}}</td>
+                  <td><input type="checkbox" name="status" id="id_status"
+                             value="True" {% if project_list.status  %} checked {% endif %} ></td>
+                  <!--<td>{{ project_list.status }}</td>-->
+                  <td>{{ project_list.create_time }}</td>
+                  <td><!--<button type="button" class="btn btn-primary">编辑</button>
+                  <button type="button" class="btn btn-primary">删除</button>>-->
+                  <a href="/project_manage_edit/{{project_list.id }}">编辑</a> <a href="/project_manage_delete/{{project_list.id }}">删除</a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+
+
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <!--<script src="../../assets/js/vendor/holder.min.js"></script>-->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
+  </body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html lang="en-us" >
+<head>
+<title>修改项目信息</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
+
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/urlify.js"></script>
+<script type="text/javascript" src="/static/admin/js/prepopulate.js"></script>
+<script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
+
+
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+
+
+<meta name="robots" content="NONE,NOARCHIVE">
+</head>
+<body class=" app-user_app model-project change-form"
+  data-admin-utc-offset="0">
+<!-- Container -->
+<div id="container">
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+
+<h1 id="site-name"><a href="/admin/">项目信息添加</a></h1>
+        </div>
+        </div>
+    <!-- END Header -->
+
+    <!-- Content -->
+    <div id="content" class="colM">
+
+        <h1>Add project</h1>
+        <div id="content-main">
+
+<form action="/project_manage_edit/" method="post" id="project_form" novalidate><input type="hidden" name="" value="">
+<div>
+ {% csrf_token %}
+  <fieldset class="module aligned ">
+        <div class="form-row field-pname">
+                <div>
+                        <label class="required" for="id_pname">Pname:</label>
+
+                        <input type="text" name="pname" class="vTextField" maxlength="255" required id="id_pname">
+                </div>
+        </div>
+        <div class="form-row field-url">
+                <div>
+                        <label class="required" for="id_url">Url:</label>
+                            <input type="text" name="url" class="vTextField" maxlength="255" required id="id_url">
+                </div>
+        </div>
+        <div class="form-row field-lead">
+                <div>
+                        <label class="required" for="id_lead">Lead:</label>
+                            <input type="text" name="lead" class="vTextField" maxlength="255" required id="id_lead">
+                </div>
+        </div>
+        <div class="form-row field-description">
+                <div>
+                        <label class="required" for="id_description">Description:</label>
+                            <input type="text" name="description" class="vTextField" maxlength="255" required id="id_description">
+                </div>
+        </div>
+</fieldset>
+
+<div class="submit-row">
+
+<input type="submit" value="Save" class="default" name="_save">
+<!--<input type="submit" value="Save and add another" name="_addanother">
+<input type="submit" value="Save and continue editing" name="_continue">-->
+</div>
+
+
+
+    <script type="text/javascript"
+            id="django-admin-form-add-constants"
+            src="/static/admin/js/change_form.js"
+
+                data-model-name="project"
+            >
+    </script>
+
+
+
+
+<script type="text/javascript"
+        id="django-admin-prepopulated-fields-constants"
+        src="/static/admin/js/prepopulate_init.js"
+        data-prepopulated-fields="[]">
+</script>
+
+
+</div>
+</form></div>
+
+
+        <br class="clear">
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
