@@ -84,7 +84,7 @@ def add_project(request):
 #修改项目
 def edit_project(request,nid):
     if request.method == "GET":
-        print("id=",id)
+        print("id=",request.GET.get("id"))
         obj = Project.objects.get(id=nid)
         return render(request,'project_manage_edit.html', {'obj': obj})
     return ""
