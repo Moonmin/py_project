@@ -280,5 +280,5 @@ django.core.exceptions.ValidationError: ["'' value must be either True or False.
 
    在管理页面已可以看到project显示在索引页里，可以页面中直接管理project表的数据
 
-   ![1539075273427](C:\Users\huang\AppData\Roaming\Typora\typora-user-images\1539075273427.png)
+ 
 
