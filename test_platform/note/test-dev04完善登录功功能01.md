@@ -282,5 +282,3 @@ django.core.exceptions.ValidationError: ["'' value must be either True or False.
 
    ![1539075273427](C:\Users\huang\AppData\Roaming\Typora\typora-user-images\1539075273427.png)
 
-
-   5.
