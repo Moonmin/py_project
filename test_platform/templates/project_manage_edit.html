@@ -32,7 +32,7 @@
     <div id="header">
         <div id="branding">
 
-<h1 id="site-name"><a href="/admin/">项目信息添加</a></h1>
+<h1 id="site-name"><a href="/admin/">项目信息修改</a></h1>
         </div>
         </div>
     <!-- END Header -->
@@ -40,37 +40,30 @@
     <!-- Content -->
     <div id="content" class="colM">
 
-        <h1>Add project</h1>
+        <h1>Edit project</h1>
         <div id="content-main">
 
 <form action="/project_manage_edit/" method="post" id="project_form" novalidate><input type="hidden" name="" value="">
 <div>
  {% csrf_token %}
   <fieldset class="module aligned ">
-        <div class="form-row field-pname">
+         <div class="form-row field-pname">
                 <div>
-                        <label class="required" for="id_pname">Pname:</label>
-
-                        <input type="text" name="pname" class="vTextField" maxlength="255" required id="id_pname">
-                </div>
-        </div>
-        <div class="form-row field-url">
-                <div>
-                        <label class="required" for="id_url">Url:</label>
-                            <input type="text" name="url" class="vTextField" maxlength="255" required id="id_url">
-                </div>
-        </div>
-        <div class="form-row field-lead">
-                <div>
-                        <label class="required" for="id_lead">Lead:</label>
-                            <input type="text" name="lead" class="vTextField" maxlength="255" required id="id_lead">
+                        <label class="required" for="id_pname">名称:</label>
+                        <input type="text" name="pname" class="vTextField" maxlength="255"  value="{{ latest_project_list.pname }}" id="id_pname">
                 </div>
         </div>
         <div class="form-row field-description">
                 <div>
-                        <label class="required" for="id_description">Description:</label>
-                            <input type="text" name="description" class="vTextField" maxlength="255" required id="id_description">
+                        <label class="required" for="id_description">描述:</label>
+                        <input type="text" name="description" class="vTextField" maxlength="255" required id="id_description">
                 </div>
+        </div>
+        <div class="form-row field-status">
+            <div class="checkbox-row">
+                <input type="checkbox" name="status" id="id_status"  value="True" checked>
+                <label class="vCheckboxLabel" for="id_status">状态</label>
+            </div>
         </div>
 </fieldset>
 
