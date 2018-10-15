@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import auth
-from .models import Project
 
 # Create your views here
 
@@ -37,7 +36,7 @@ def login_action(request):
                 request.session['cuser_name'] = user_name
 
                 # 重定向请求
-                return HttpResponseRedirect("/project_manage/")
+                return HttpResponseRedirect("/manage/project_manage/")
             else:
                 # 如果数据返回值为None,说明用户或密码错误，跳回登录页
                 return render(request, 'login.html',
@@ -49,7 +48,13 @@ def login_action(request):
 重定向请求跳转至新页面
 '''
 
-@login_required
+#退出功能
+def logout(request):
+    auth.logout(request) #清除用户登录状态
+    return HttpResponseRedirect("/") #重定向至登录页面
+
+
+'''@login_required
 def project_manage(request):
     # cuser_name = request.COOKIES.get("cuser_name","")
     # print("cuser_name=",cuser_name)
@@ -94,3 +99,4 @@ def edit_project(request,nid):
 #删除项目
 def delete_project(request):
     return ""
+'''
