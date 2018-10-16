@@ -14,7 +14,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a e >{{ cuser_name }}</a></li>
+            <li><a>{{ cuser_name }}</a></li>
             <li><a href="/logout/">退出</a></li>
           </ul>
           <form class="navbar-form navbar-right">
@@ -41,11 +41,18 @@
           </ul>
         </div>
 
-        <form  action="/login_action/" method="post">
+        <!-- 通过返回的list标签判断当前查询操作显示列表 -->
+        {% if type == "list" %}
+        <form  action="" method="post">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h3 class="page-header">项目列表</h3>
-          <!--<button type="button" class="btn btn-primary "  >新增</button>-->
-          <a href="/project_manage_add" >新增</a>
+          <h3 class="page-header">项目列表
+          <button
+                  type="button" class="btn btn-primary" style="float: right"
+                  onclick="window.location.href='/manage/add_project'"
+          >新增</button>
+          </h3>
+
+          <!--<a href="/project_manage_add" >新增</a>-->
           <div class="table-responsive">
 
              <table class="table table-striped">
@@ -73,6 +80,8 @@
                   </td>
                 </tr>
               {% endfor %}
+
+              <!-- 新增页面 -->
               </tbody>
             </table>
 
@@ -80,6 +89,8 @@
           </div>
         </div>
       </form>
+      {% endif %}
+
       </div>
     </div>
 
@@ -93,5 +104,4 @@
     <!--<script src="../../assets/js/vendor/holder.min.js"></script>-->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
-{% endblock %}
-
+ {% endblock %}

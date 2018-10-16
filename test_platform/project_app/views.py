@@ -17,10 +17,11 @@ def project_manage(request):
     # print("cuser_name=",cuser_name)
     cuser_name = request.session.get("cuser_name","")
     latest_project_list = Project.objects.all()
-    #print("latest_project_id=",latest_project_list.get(pname="项目1"))
-    #context = {"latest_project_list":latest_project_list}
-
-    return render(request,"project_manage.html",{"cuser_name":cuser_name,"latest_project_list":latest_project_list})
+    #增加返回标签type,用于区分操作
+    return render(request,"project_manage.html",{"cuser_name": cuser_name,
+                                                 "latest_project_list": latest_project_list,
+                                                "type":" list"}
+                )
 
 
 
@@ -38,7 +39,7 @@ def add_project(request):
         return HttpResponseRedirect("/manage/project_manage/")
     elif request.method == "GET":
         #跳转新增页面
-        return render(request, "project_manage_add.html")
+        return render(request, "project_manage.html",{"type": "add"})
 
 #修改项目
 def edit_project(request,nid):
