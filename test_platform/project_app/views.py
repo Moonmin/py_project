@@ -39,16 +39,8 @@ def add_project(request):
             description = form.cleaned_data["description"]
             status = form.cleaned_data["status"]
             Project.objects.create(pname=pname, description=description, status=status)
-
             return HttpResponseRedirect("/manage/project_manage/")
-        """pname = request.POST.get("pname")
-        description = request.POST.get("description")
-        status = request.POST.get("status","False")
-        #print("status=",status)
-        Project.objects.create(pname=pname,description=description,status=status)
-        #跳转回首页
-        return HttpResponseRedirect("/manage/project_manage/")
-        """
+
     elif request.method == "GET":
         #新增页面,返回forms中定义的表单
         add_form = ProjectForm()
