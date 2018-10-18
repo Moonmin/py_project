@@ -26,11 +26,15 @@ def project_manage(request):
 
 
 
-#新增项目
 def add_project(request):
+    """
+    新增项目
+    :param request:
+    :return:
+    """
     if request.method == 'POST':
-        print("POSTPOSTPOST")
-        #创建表单实例并使用请求中的数据填充它
+        # print("POSTPOSTPOST")
+        #创建表单实例并使用请求中的数据填充它,绑定数据至表单
         form = ProjectForm(request.POST)
         #检查表单内容是否有效
         if form.is_valid():
@@ -44,19 +48,49 @@ def add_project(request):
     elif request.method == "GET":
         #新增页面,返回forms中定义的表单
         add_form = ProjectForm()
-        print("add_form",add_form.as_p())
-        return render(request, "project_manage.html",{"add_form": add_form.as_p(),"type": "add"})
+        # print("add_form",add_form.as_p())
+        return render(request, "project_manage.html",{"add_form": add_form,"type": "add"})
 
-#修改项目
-def edit_project(request,nid):
-    if request.method == "GET":
+
+def edit_project(request, nid):
+    """
+    修改项目
+    :param request:
+    :param nid:
+    :return:
+    """
+
+    if request.method == "GET":#打开编辑页面
         #print("id=",nid)
-        latest_project_list = Project.objects.filter(id=nid)
-        print("latest_project_list=", latest_project_list)
-        return render(request,'project_manage_edit.html', {'latest_project_list': latest_project_list})
-    return ""
+        project_list = Project.objects.filter(id=nid)
+        print("project_rs",project_list[0].pname)
+        #返回编辑页面
+        return render(request, 'project_manage.html', {'project_list': project_list[0],"type": "edit"})
+    else:
+        # post请求,提交修改内容
+        # 创建表单实例并使用请求中的数据填充它,绑定数据至表单
+        form = ProjectForm(request.POST)
+        print("editeditediteditedit")
+        # 检查表单内容是否有效
+        if form.is_valid():
+            # 读取表单返回的值
+            e_pname = form.cleaned_data["pname"]
+            e_description = form.cleaned_data["description"]
+            e_status = form.cleaned_data["status"]
+            # print("pname=",pname, "description=",description, "status=",status)
+            Project.objects.filter(id=nid).update(pname=e_pname, description=e_description, status=e_status)
+            # Project.save()
+            return HttpResponseRedirect("/manage/project_manage/")
+        else:
+            return ""
 
-
-#删除项目
-def delete_project(request):
-    return ""
+def delete_project(request,nid):
+    """
+    删除项目
+    :param request:
+    :param nid:
+    :return:
+    """
+    if request.method == "GET":
+        Project.objects.get(id=nid).delete()
+        return HttpResponseRedirect("/manage/project_manage/")

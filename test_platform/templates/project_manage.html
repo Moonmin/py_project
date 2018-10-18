@@ -76,9 +76,8 @@
                              value="True" {% if project_list.status  %} checked {% endif %} ></td>
                   <!--<td>{{ project_list.status }}</td>-->
                   <td>{{ project_list.create_time }}</td>
-                  <td><!--<button type="button" class="btn btn-primary">编辑</button>
-                  <button type="button" class="btn btn-primary">删除</button>>-->
-                  <a href="/project_manage_edit/{{project_list.id }}">编辑</a> <a href="/project_manage_delete/{{project_list.id }}">删除</a>
+                  <td>
+                  <a href="/manage/manage_edit/{{project_list.id }}">编辑</a> <a href="/manage/manage_delete/{{project_list.id }}">删除</a>
                   </td>
                 </tr>
               {% endfor %}
@@ -96,9 +95,35 @@
                    <div class="table-responsive">
                        <form action="/manage/add_project/" method="post">
                             {% csrf_token %}
-                            {{ add_form }}
+                            {{ add_form.as_p }}
                             <input type="submit" class="btn btn-primary" value="Submit">
                         </form>
+                   </div>
+                </div>
+              {% endif %}
+
+        <!-- 修改页面 -->
+              {% if type == "edit" %}
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <h3 class="sub-header">修改项目</h3>
+                        <div class="table-responsive">
+                            <form action="/manage/manage_edit/{{project_list.id }}/" method="post">
+                                {% csrf_token %}
+                                <p>
+                                    <label for="id_pname">项目名称</label>
+                                    <input type="text" name="pname" maxlength="255" value={{ project_list.pname }}>
+                                </p>
+                                <p>
+                                    <label for="id_description">描述</label>
+                                    <textarea name="description" cols="40" rows="10" class="form-control"> {{ project_list.description }}</textarea>
+                                </p>
+                                <p>
+                                    <label for="id_status">状态</label>
+                                    <input type="checkbox" name="status" id="id_status" value="True" {% if project_list.status  %} checked {% endif %} >
+
+                                </p>
+                                <input type="submit" class="btn btn-primary" value="Submit">
+                            </form>
                    </div>
                 </div>
               {% endif %}
