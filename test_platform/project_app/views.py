@@ -67,13 +67,13 @@ def edit_project(request, nid):
         #返回编辑页面
         # edit_form = ProjectForm(instance=project_list)
         edit_form = ProjectForm(initial={"pname": project_list[0].pname,"description": project_list[0].description,"status": project_list[0].status })
-        print ("edit_form",edit_form)
+        # print("edit_form",edit_form)
         return render(request, 'project_manage.html', {'edit_form': edit_form,"type": "edit","id":project_list[0].id})
     else:
         # post请求,提交修改内容
         # 创建表单实例并使用请求中的数据填充它,绑定数据至表单
         form = ProjectForm(request.POST)
-        print("editeditediteditedit")
+        # print("editeditediteditedit")
         # 检查表单内容是否有效
         if form.is_valid():
             # 读取表单返回的值
