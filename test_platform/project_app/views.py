@@ -63,9 +63,12 @@ def edit_project(request, nid):
     if request.method == "GET":#打开编辑页面
         #print("id=",nid)
         project_list = Project.objects.filter(id=nid)
-        print("project_rs",project_list[0].pname)
+        # print("project_rs",project_list[0].pname)
         #返回编辑页面
-        return render(request, 'project_manage.html', {'project_list': project_list[0],"type": "edit"})
+        # edit_form = ProjectForm(instance=project_list)
+        edit_form = ProjectForm(initial={"pname": project_list[0].pname,"description": project_list[0].description,"status": project_list[0].status })
+        print ("edit_form",edit_form)
+        return render(request, 'project_manage.html', {'edit_form': edit_form,"type": "edit","id":project_list[0].id})
     else:
         # post请求,提交修改内容
         # 创建表单实例并使用请求中的数据填充它,绑定数据至表单
