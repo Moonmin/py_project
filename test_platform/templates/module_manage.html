@@ -75,7 +75,9 @@
                   <td>{{ module_list.description}}</td>
                   <td>{{ module_list.create_time | date:"Y-m-d H:i:s"}}</td>
                   <td>
-                  <a href="/manage/module_edit/{{module_list.id }}">编辑</a> <a href="/manage/module_delete/{{module_list.id }}">删除</a>
+                  <a title="编辑" class="glyphicon glyphicon-pencil"  href="/manage/module_edit/{{module_list.id }}"></a>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <a title="删除" class="glyphicon glyphicon-trash" href="/manage/module_delete/{{module_list.id }}"></a>
                   </td>
                 </tr>
               {% endfor %}

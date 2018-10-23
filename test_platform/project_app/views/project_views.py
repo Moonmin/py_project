@@ -70,7 +70,7 @@ def edit_project(request, nid):
         # print("edit_form",edit_form)
         edit_form = ProjectForm(
                 instance=Project.objects.get(id=nid))
-        return render(request, 'project_manage.html', {'edit_form': edit_form, "type": "edit", "id":project_list[0].id})
+        return render(request, 'project_manage.html', {'edit_form': edit_form, "type": "edit"})
 
     else:
         # post请求,提交修改内容
