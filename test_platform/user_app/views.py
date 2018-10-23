@@ -6,7 +6,7 @@ from django.contrib import auth
 # Create your views here
 
 def index(request):
-    return render(request,'login.html')
+    return render(request, 'login.html')
 
 #处理登录请求
 def login_action(request):
@@ -19,7 +19,7 @@ def login_action(request):
         # print("user_pwd",user_pwd)
         if(user_name == '' or user_pwd == ''):
             #当用户名或密码为空时，跳转回登录页面,并给出提示
-            return render(request,'login.html',
+            return render(request, 'login.html',
                           {'error':'用户名或密码为空'})
 
         else:
