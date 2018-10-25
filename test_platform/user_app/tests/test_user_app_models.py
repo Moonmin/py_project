@@ -34,7 +34,7 @@ class UserModelsTest(TestCase):
         self.assertEqual(user.email,"edit0001@163.com")
 
     def test_user_delete(self):
-        "删除用户"
+        """删除用户"""
         User.objects.get(username="test0001").delete()
         #返回记录条数
         user_count = User.objects.filter(username="test0001").count()

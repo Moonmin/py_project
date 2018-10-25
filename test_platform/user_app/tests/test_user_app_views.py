@@ -6,5 +6,5 @@ from django.contrib.auth.models import User
 class IndexPageTest(TestCase):
     """登录页面测试"""
 
-    
+
 
