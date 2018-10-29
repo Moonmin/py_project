@@ -34,7 +34,7 @@ class LoginActionTest(TestCase):
         """用户名和密码错误"""
 
         response = self.client.post("/login_action/",{"user_name":"ali","password":"123"})
-        print(response.content.decode("utf-8"))
+        # print(response.content.decode("utf-8"))
         login_html = response.content.decode("utf-8")
         self.assertEqual(response.status_code,200)
         self.assertIn("用户名或密码错误",login_html)
@@ -48,5 +48,20 @@ class LoginActionTest(TestCase):
             "/login_action/",data={"user_name": "test0001", "password": "123"})
         print(response.content.decode("utf-8"))
         self.assertEqual(response.status_code, 302)
-      
 
+
+class LogoutTest(TestCase):
+    """退出用例,初始化数据登录系统，再调用退出接口"""
+    def setUp(self):
+        #测试准备数据,创建用户,登录系统
+        User.objects.create_user("test0001", "test001@163.com", "123")
+        login_data = {"user_name": "test0001", "password": "123"}
+        response = self.client.post(
+            "/login_action/", data= login_data)
+        # self.assertEqual(response.status_code,302)
+
+
+    def test_logout(self):
+        response = self.client.get("/logout/")
+        # print("cotent=",response.content.decode("utf-8"))
+        self.assertEqual(response.status_code,302)
