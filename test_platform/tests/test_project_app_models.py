@@ -1,6 +1,7 @@
 from django.test import TestCase
 from project_app.models import Project
 
+
 # Create your tests here.
 
 class ProjectModelsTest(TestCase):
@@ -64,4 +65,4 @@ class ProjectModelsTest(TestCase):
 
         Project.objects.get(pname="单测项目名称").delete()
         p_res_count = Project.objects.filter(pname="单测项目名称").count()
-        self.assertEqual(p_res_count.0)
+        self.assertEqual(p_res_count,0)
