@@ -38,5 +38,5 @@ class UserModelsTest(TestCase):
         User.objects.get(username="test0001").delete()
         #返回记录条数
         user_count = User.objects.filter(username="test0001").count()
-        print("user_name",user_count)
+        # print("user_name",user_count)
         self.assertEqual(user_count,0)
