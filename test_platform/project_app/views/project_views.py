@@ -25,7 +25,7 @@ def project_manage(request):
                   )
 
 
-
+@login_required
 def add_project(request):
     """
     新增项目
@@ -51,7 +51,7 @@ def add_project(request):
         # print("add_form",add_form.as_p())
         return render(request, "project_manage.html", {"add_form": add_form, "type": "add"})
 
-
+@login_required
 def edit_project(request, nid):
     """
     修改项目
@@ -90,6 +90,8 @@ def edit_project(request, nid):
         else:
             return ""
 
+
+@login_required
 def delete_project(request,nid):
     """
     删除项目

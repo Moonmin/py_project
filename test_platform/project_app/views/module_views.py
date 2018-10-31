@@ -6,7 +6,7 @@ from project_app.models import Module
 from project_app.forms import ModuleForm
 
 # Create your views here
-
+@login_required
 def list_module(request):
     latest_module_list = Module.objects.all()
     #增加返回标签type,用于区分操作
@@ -14,7 +14,7 @@ def list_module(request):
                                                 "type": "list"}
                   )
 
-
+@login_required
 def add_module(request):
     """
     新增模块
@@ -38,7 +38,7 @@ def add_module(request):
         # print("add_form",add_form.as_p())
         return render(request, "module_manage.html", {"add_form": add_form, "type": "add"})
 
-
+@login_required
 def edit_module(request, mid):
     """
     修改模块
@@ -66,6 +66,7 @@ def edit_module(request, mid):
         else:
             return ""
 
+@login_required
 def delete_module(request,mid):
     """
     删除模块
