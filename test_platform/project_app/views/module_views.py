@@ -8,9 +8,11 @@ from project_app.forms import ModuleForm
 # Create your views here
 @login_required
 def list_module(request):
+    # 单测时发现切换到模块管理页面时，右上角登录用户丢失，加上从session中获取用户
+    cuser_name = request.session.get("cuser_name", "")
     latest_module_list = Module.objects.all()
     #增加返回标签type,用于区分操作
-    return render(request, "module_manage.html", {"latest_module_list": latest_module_list,
+    return render(request, "module_manage.html", {"cuser_name": cuser_name,"latest_module_list": latest_module_list,
                                                 "type": "list"}
                   )
 

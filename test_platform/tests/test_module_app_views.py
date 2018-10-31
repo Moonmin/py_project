@@ -29,16 +29,16 @@ class ModuleViewsTest(TestCase):
 
 
     def test_module_manage(self):
-        """测试项目管理列表展示"""
+        """测试模块管理列表展示"""
 
-        response = self.client.get("/manage/project_manage/")
+        response = self.client.get("/manage/module_manage/")
         #获取返回的页面内容
         res_html = response.content.decode("utf-8")
         # print("res_html",response.content)
         self.assertEqual(response.status_code, 200)
         self.assertIn("test0001",res_html)
         self.assertIn("退出", res_html)
-        self.assertIn("项目名称1", res_html)
+        self.assertIn("单测模块名称", res_html)
 
     def test_project_add(self):
         """测试项目管理新增"""
