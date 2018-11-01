@@ -14,7 +14,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a>{{ cuser_name }}</a></li>
+            <li id="login_name"><a>{{ cuser_name }}</a></li>
             <li><a href="/logout/">退出</a></li>
           </ul>
           <form class="navbar-form navbar-right">
@@ -77,9 +77,9 @@
                   <!--<td>{{ project_list.status }}</td>-->
                   <td>{{ project_list.create_time | date:"Y-m-d H:i:s"}}</td>
                   <td>
-                  <a title="编辑" class="glyphicon glyphicon-pencil" href="/manage/manage_edit/{{project_list.id }}"></a>
+                  <a id="op_edit{{project_list.id }}" title="编辑" class="glyphicon glyphicon-pencil" href="/manage/manage_edit/{{project_list.id }}"></a>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <a title="删除" class="glyphicon glyphicon-trash" href="/manage/manage_delete/{{project_list.id }}"></a>
+                  <a id="op_del{{project_list.id }}" title="删除" class="glyphicon glyphicon-trash" href="/manage/manage_delete/{{project_list.id }}"></a>
                   </td>
                 </tr>
               {% endfor %}
@@ -98,9 +98,9 @@
                        <form action="/manage/add_project/" method="post">
                             {% csrf_token %}
                             {{ add_form.as_p }}
-                            <input type="submit" class="btn btn-primary" value="保存">
+                            <input id="btn_save" type="submit" class="btn btn-primary" value="保存">
                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <input  class="btn btn-primary" type="button" onclick="window.location.href='/manage/project_manage/'" value="取消">
+                            <input id="btn_cancel" class="btn btn-primary" type="button" onclick="window.location.href='/manage/project_manage/'" value="取消">
                         </form>
                    </div>
                 </div>
@@ -109,12 +109,12 @@
         <!-- 修改页面 -->
               {% if type == "edit" %}
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    <h3 class="sub-header">修改项目</h3>
+                    <h3 id="edit_project_page" class="sub-header">修改项目</h3>
                         <div class="table-responsive">
                             <form  method="post">
                                 {% csrf_token %}
                                 {{ edit_form.as_p }}
-                                <input type="submit" id="save" class="btn btn-primary" value="保存">
+                                <input type="submit" id="btn_save" class="btn btn-primary" value="保存">
                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input  class="btn btn-primary" type="button" onclick="window.location.href='/manage/project_manage/'" value="取消">
                             </form>

@@ -11,6 +11,7 @@ class LoginTest(StaticLiveServerTestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.driver = Chrome()
+        cls.driver.maximize_window()
         cls.driver.implicitly_wait(10)
 
     @classmethod
@@ -68,17 +69,33 @@ class LoginTest(StaticLiveServerTestCase):
         sleep(1)
         #获取页面左上角平台名称
         page_name_text = self.driver.find_element_by_class_name("navbar-brand").text
-        print(page_name_text)
+        # print(page_name_text)
         self.assertEqual("测试平台", page_name_text)
-        sleep(3)
-        # 打开项目管理新增页面
-        self.driver.find_element_by_id("add_btn").click()
-        add_project_page_name = self.driver.find_element_by_id("add_project_page")
-        print("add_project_page_name=",add_project_page_name)
-        self.assertEqual("添加项目", add_project_page_name)
-        p_name_text = self.driver.find_element_by_id("id_pname")
-        p_name_text.send_keys("ui22222")
-        id_description_text = self.driver.find_element_by_id("id_description")
-        id_description_text.send_keys("uidesc")
-        self.driver.find_element_by_id("save").click()
-        sleep(5)
+        #登录用户
+        login_name_text = self.driver.find_element_by_id("login_name")
+
+
+
+
+
+
+        def add_project():
+            """新增页面ui"""
+
+            self.driver.find_element_by_id("add_btn").click()
+            add_project_page_name = self.driver.find_element_by_id("add_project_page").text
+            # print("add_project_page_name=",add_project_page_name)
+            self.assertEqual("添加项目", add_project_page_name)
+            p_name_text = self.driver.find_element_by_id("id_pname")
+            p_name_text.send_keys("ui项目名称")
+            id_description_text = self.driver.find_element_by_id("id_description")
+            id_description_text.send_keys("ui描述")
+            self.driver.find_element_by_id("btn_save").click()
+            # 获取列表数据断言
+            p_name = self.driver.find_element_by_xpath("//tr[1]/td[1]").text
+            p_description = self.driver.find_element_by_xpath("//tr[1]/td[2]").text
+            # print("p_description=",p_description)
+            self.assertEqual("ui项目名称", p_name)
+            self.assertEqual("p_description", p_description)
+
+            
