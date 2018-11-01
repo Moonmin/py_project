@@ -48,7 +48,7 @@
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h3 class="page-header">模块列表
-          <button
+          <button id="add_btn"
                   type="button" class="btn btn-primary" style="float: right"
                   onclick="window.location.href='/manage/module_add'"
           >新增</button>
@@ -75,9 +75,9 @@
                   <td>{{ module_list.description}}</td>
                   <td>{{ module_list.create_time | date:"Y-m-d H:i:s"}}</td>
                   <td>
-                  <a title="编辑" class="glyphicon glyphicon-pencil"  href="/manage/module_edit/{{module_list.id }}"></a>
+                  <a id="op_edit{{module_list.id }}" title="编辑" class="glyphicon glyphicon-pencil"  href="/manage/module_edit/{{module_list.id }}"></a>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <a title="删除" class="glyphicon glyphicon-trash" href="/manage/module_delete/{{module_list.id }}"></a>
+                  <a id="op_del{{module_list.id }}" title="删除" class="glyphicon glyphicon-trash" href="/manage/module_delete/{{module_list.id }}"></a>
                   </td>
                 </tr>
               {% endfor %}
@@ -91,12 +91,12 @@
         <!-- 新增页面 -->
               {% if type == "add" %}
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <h3 class="sub-header">添加模块</h3>
+                <h3 class="sub-header" id="add_module_page">添加模块</h3>
                    <div class="table-responsive">
                        <form action="/manage/module_add/" method="post">
                             {% csrf_token %}
                             {{ add_form.as_p }}
-                            <input type="submit" class="btn btn-primary" value="保存">
+                            <input id="btn_save" type="submit" class="btn btn-primary" value="保存">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <input  class="btn btn-primary" type="button" onclick="window.location.href='/manage/module_manage/'" value="取消">
                         </form>
@@ -107,13 +107,13 @@
         <!-- 修改页面 -->
               {% if type == "edit" %}
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    <h3 class="sub-header">修改模块</h3>
+                    <h3 id="edit_module_page" class="sub-header">修改模块</h3>
                         <div class="table-responsive">
                             <!--<form action="/manage/module_edit/" method="post">-->
                             <form  method="post">
                                 {% csrf_token %}
                                 {{ edit_form.as_p }}
-                                <input type="submit" class="btn btn-primary" value="保存">
+                                <input type="submit" id="btn_save" class="btn btn-primary" value="保存">
                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input  class="btn btn-primary" type="button" onclick="window.location.href='/manage/module_manage/'" value="取消">
                             </form>

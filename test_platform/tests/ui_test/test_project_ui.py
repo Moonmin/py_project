@@ -49,7 +49,7 @@ class ProjectManageTest(StaticLiveServerTestCase):
         self.assertEqual("ui项目描述", p_description)
 
 
-    def add_project(self):
+    def test_add_project(self):
         """新增页面ui"""
         # 获取页面左上角平台名称，确认已登录系统
         page_name_text = self.driver.find_element_by_class_name("navbar-brand").text
@@ -71,7 +71,7 @@ class ProjectManageTest(StaticLiveServerTestCase):
         self.assertEqual("ui项目描述2", p_description)
 
 
-    def edit_project(self):
+    def test_edit_project(self):
         """新增页面ui"""
         # 获取页面左上角平台名称，确认已登录系统
         page_name_text = self.driver.find_element_by_class_name("navbar-brand").text
@@ -97,7 +97,7 @@ class ProjectManageTest(StaticLiveServerTestCase):
         self.assertEqual("ui项目描述2修改", p_description)
 
 
-    def edit_project(self):
+    def test_edit_project(self):
         """修改页面ui"""
         # 获取页面左上角平台名称，确认已登录系统
         page_name_text = self.driver.find_element_by_class_name("navbar-brand").text
@@ -123,7 +123,7 @@ class ProjectManageTest(StaticLiveServerTestCase):
         self.assertEqual("ui项目描述2修改", p_description)
 
 
-    def del_project(self):
+    def test_del_project(self):
         """删除功能ui"""
         # 获取页面左上角平台名称，确认已登录系统
         page_name_text = self.driver.find_element_by_class_name("navbar-brand").text
