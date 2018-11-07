@@ -13,6 +13,6 @@ urlpatterns = [
     # path("module_add/", module_views.add_module),
     # path("module_edit/<int:mid>", module_views.edit_module),
     # path("module_delete/<int:mid>", module_views.delete_module),
-    # 调试页面
-    path("api_debug/", case_views.api_debug),
+    path("api_debug/", case_views.api_debug),# 调试页面
+    path("debug_interface/", case_views.debug_interface),# 发送调试接口请求
 ]

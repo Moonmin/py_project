@@ -28,4 +28,6 @@ urlpatterns = [
     #re_path(r"^project_manage_edit/(\d+)/$", views.edit_project),
     #re_path(r"^project_manage_delete/(\d+)/$", views.delete_project)
     path("interface/",include("interface_app.urls")),# 用例管理、任务管理
+
+
 ]
