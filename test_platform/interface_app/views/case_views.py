@@ -53,12 +53,12 @@ def debug_interface(request):
 
         elif method == "post":
             # 判断参数类型req_type：form-data /JSON
-            # print("req_type===========",req_type)
+            print("req_type===========",req_type)
             if req_type == "JSON":
                 r = requests.post(url, headers=headers, data=json.dumps(payload))
-            elif req_type == "data":
+            elif req_type == "form":
                 r = requests.post(url,headers=headers, data=payload)
-            print("r.url=== ", r.url,)
-            # print("r.content=== ", r.text.encode("utf-8"))
+                print("r.url=== ", r.url,)
+
 
     return HttpResponse(r.text)

@@ -35,7 +35,7 @@
             <div style="margin-top: 10px;">
                 <label>参数类型：</label>
                 <label class="radio-inline">
-                    <input type="radio" name="req_type" id="from" value="from" checked> form-data
+                    <input type="radio" name="req_type" id="form" value="form" checked> form-data
                 </label>
                 <label class="radio-inline">
                     <input type="radio" name="req_type" id="json" value="json"> JSON
@@ -80,6 +80,7 @@
                 let req_url = $("#req_url").val()
                 let req_method = $("input[name='req_method']:checked").val()
                 let req_type = $("input[name='req_type']:checked").val()
+                console.log(req_type)
                 let req_header = $("#req_header").val()
                 let req_parameter = $("#req_parameter").val()
                 //判断url是否为空
@@ -93,6 +94,7 @@
                 }
                 if(req_parameter === "")
                 {
+
                     req_parameter = "{}"
                 }
 
