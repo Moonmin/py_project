@@ -5,7 +5,7 @@ from interface_app.views import case_views,task_views
 urlpatterns = [
     # 用例管理
     path("case_manage/",case_views.case_manage),
-    # path("add_project/", project_views.add_project),
+    path("case_save/", case_views.save_case),
     # re_path(r"^manage_edit/(\d+)/$", project_views.edit_project),
     # re_path(r"^manage_delete/(\d+)/$", project_views.delete_project),
     # 任务管理

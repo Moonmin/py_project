@@ -29,6 +29,7 @@ def add_module(request):
         if form.is_valid():
             #读取表单返回的值
             project_id = form.cleaned_data["project"]
+            print("project_id=====",project_id,type(project_id))
             mname = form.cleaned_data["mname"]
             description = form.cleaned_data["description"]
             Module.objects.create(project=project_id,mname=mname, description=description)

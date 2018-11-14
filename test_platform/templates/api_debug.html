@@ -5,10 +5,15 @@
     <fieldset>
         <div style="width:80%; margin-left: 20px;">
         <form action="/debug/" method="get" class="bs-example bs-example-form" role="form" style="margin-top: 30px">
-
             <div class="input-group">
-                <span class="input-group-addon">名称</span>
-                <input id="req_name" type="text" class="form-control" placeholder="name">
+                <span class="input-group-addon" >模块</span>
+                {{ add_form.module  }}
+            </div>
+            <br>
+            <div class="input-group " >
+                <span class="input-group-addon" >名称</span>
+
+                <input id="req_name" type="text" class="form-control" placeholder="name" >
             </div>
             <br>
             <div class="input-group">
@@ -55,6 +60,7 @@
             </div>
             <p style="color:#8B8989">说明：以字典的方式设置参数，如：{"id":1, "name":"名称"}</p>
             <div style="width: 100%; height: 60px;">
+                <button type="button" class="btn btn-success" id="save" style="float: right;margin-right: 10px;">保存</button>
                 <button type="button" class="btn btn-success" id="send" style="float: right;margin-right: 10px;">调试</button>
             </div>
 
@@ -96,6 +102,8 @@
                 {
 
                     req_parameter = "{}"
+
+                    console.log("req_parameter=="+req_parameter)
                 }
 
                 //发送post请求
@@ -116,6 +124,65 @@
                         
                     });
             });
+
+            //保存
+            $("#save").click(function()
+            {
+                let module = $("select[name='module']").val()
+                console.log("module=="+module)
+                let  req_name = $("#req_name").val()
+                //console.log(req_name)
+                let req_url = $("#req_url").val()
+                let req_method = $("input[name='req_method']:checked").val()
+                let req_type = $("input[name='req_type']:checked").val()
+                let req_header = $("#req_header").val()
+                let req_parameter = $("#req_parameter").val()
+                //判断module是否为空
+                if(module === "")
+                {
+                    window.alert("请选择对应模块")
+                }
+                else if(req_name === "")
+                {
+                    window.alert("请输入用例名称")
+                }
+                //判断url是否为空
+                else if(req_url === "")
+                {
+                    window.alert("请求url不能为空！")
+                }
+                if(req_header === "")
+                {
+                    req_header = "{}"
+                }
+                if(req_parameter === "")
+                {
+
+                    req_parameter = "{}"
+                }
+
+                //发送post请求
+                $.post("/interface/case_save/",
+                    {
+
+                        "module":module,
+                        "req_name":req_name,
+                        "req_url":req_url,
+                        "req_method":req_method,
+                        "req_parameter":req_parameter,
+                        "req_type":req_type,
+                        "req_header":req_header
+
+                    },
+                    function(result)
+                    {
+                        //console.log(result)
+                        $("#result").html(result)
+
+                    });
+            });
+
+
         });
     </script>
 

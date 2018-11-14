@@ -2,15 +2,19 @@ from django.db import models
 
 # Create your models here.
 
-#项目表
+# 项目表
+
+
 class Project(models.Model):
-    #id = models.AutoField(primary_key=True) #会默认生成
+    # id = models.AutoField(primary_key=True)# 会默认生成
     pname = models.CharField("名称",max_length=255,blank=False,default="")
     description = models.CharField("描述",max_length=255,default="")
     status = models.BooleanField("状态",default=True)
     create_time = models.DateTimeField("创建时间",auto_now=True)
+
     def __str__(self):
         return self.pname
+
 
 class Module(models.Model):
     """

@@ -23,3 +23,5 @@ class TestCase(models.Model):
     # 删除的时候，外键字段被设置为空，前提就是blank=True, null=True,定义该字段的时候，允许为空。
     creator = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
 
+    def __str__(self):
+        return self.name
