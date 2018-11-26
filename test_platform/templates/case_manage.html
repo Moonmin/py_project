@@ -66,19 +66,24 @@
                   <th>参数类型</th>
                   <th>Header</th>
                   <th>参数</th>
+                  <th>创建人</th>
+                  <th>创建时间</th>
                   <th>返回结果</th>
                   <th>操作</th>
                 </tr>
               </thead>
               <tbody>
-              {% for project_list in latest_project_list %}
+              {% for case_list in case_list %}
                 <tr>
-                  <td>{{ project_list.pname }}</td>
-                  <td>{{ project_list.description}}</td>
-                  <td><input type="checkbox" name="status" id="id_status"
-                             value="True" {% if project_list.status  %} checked {% endif %} ></td>
-                  <!--<td>{{ project_list.status }}</td>-->
-                  <td>{{ project_list.create_time | date:"Y-m-d H:i:s"}}</td>
+                  <td>{{ case_list.name }}</td>
+                  <td>{{ case_list.url}}</td>
+                  <td>{{ case_list.req_method }}</td>
+                  <td>{{ case_list.req_type}}</td>
+                  <td>{{ case_list.req_header  }}</td>
+                  <td>{{ case_list.req_param  }}</td>
+                  <td>{{ case_list.creator  }}</td>
+                  <td>{{ case_list.create_time | date:"Y-m-d H:i:s"}}</td>
+                  <td>{{ case_list.rsp_assert }}</td>
                   <td>
                   <a id="op_edit{{project_list.id }}" title="编辑" class="glyphicon glyphicon-pencil" href="/manage/manage_edit/{{project_list.id }}"></a>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -101,7 +106,7 @@
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 <h3 class="sub-header" >在线postman</h3>
                 <div class="row">
-                    {% block api_debug %}
+                    {% block case_add %}
 
                     {% endblock %}
                 </div>

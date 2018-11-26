@@ -4,11 +4,19 @@ from django.http import HttpResponse, JsonResponse
 from interface_app.forms import TestCaseForm
 from project_app.models import Module
 from interface_app.models import TestCase
+from django.contrib.auth.models import User
 import requests
 import json
 
 
 # Create your views here.
+
+def get_project_list(request):
+    """
+    获取项目/模块列表
+    :param request:
+    :return:
+    """
 
 def case_manage(request):
     """
@@ -17,7 +25,8 @@ def case_manage(request):
     :return:
     """
     if request.method == "GET":
-        return render(request, "case_manage.html", {"type": "list"})
+        case_list = TestCase.objects.all()
+        return render(request, "case_manage.html", {"type": "list","case_list": case_list})
     else:
         return Http404("页面不存在！")
 
@@ -31,7 +40,7 @@ def api_debug(request):
     if request.method == "GET":
         add_form = TestCaseForm()
         # print("add_form=====",add_form)
-        return render(request, "api_debug.html", {"type": "debug", "add_form": add_form})
+        return render(request, "case_add.html", {"type": "debug", "add_form": add_form})
     else:
         return Http404("请求错误！")
 
@@ -84,6 +93,8 @@ def save_case(request):
         params = request.POST.get("req_parameter")
         req_type = request.POST.get("req_type")  # 请求类型form-data/JSON
         req_headers = request.POST.get("req_header")
+        creator_id = request.POST.get("creator")
+        print("creator_id==",creator_id)
 
         # 以下参数为空时默认赋空值
         if (params == "" or module_id == "" or req_name == "" or
@@ -101,14 +112,23 @@ def save_case(request):
         module_obj = Module.objects.get(id=module_id)
         # print ("module===", type(module_obj))
 
+        # 根据creator_id获取creator对象,用户写入时只需要写入id
+        # creator_obj = User.objects.get(id=creator_id)
+        # print ("creator_obj===", creator_obj)
+
         # 生成数据
 
-        TestCase.objects.create(name=req_name, module=module_obj, url=url,
+        case_obj = TestCase.objects.create(name=req_name, module=module_obj, url=url,
                                 req_method=method, req_header=req_headers,
                                 req_type=req_type,
-                                req_parameter=params)
-        return HttpResponse("保存成功")
-
+                                req_param=params,
+                                creator_id=creator_id)
+        if case_obj is not None:
+            return HttpResponse("保存成功")
+        else:
+            return HttpResponse("保存失败")
 
     else:
         return Http404("请求错误！")
+
+
