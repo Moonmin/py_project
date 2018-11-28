@@ -44,15 +44,24 @@
         <!-- 通过返回的list标签判断当前查询操作显示列表 -->
 
         {% if type == "list" %}
-        <form  action="" method="post">
+        <form  action="/interface/search_name/" method="get">
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h3 class="page-header">用例列表
+            <h3 class="page-header">用例列表</h3>
+            <!--<form method="post" action="/interface/search_name/">-->
+                <div class="input-group col-md-3" style="margin-top:0px; positon:relative">
+                    <input type="text" name = "case_name" class="form-control"placeholder="请输入用列名称"  >
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-search"  >查找</button>
+                    </span>
+                </div>
+
+
+
           <button id="add_btn"
                   type="button" class="btn btn-primary" style="float: right"
-                  onclick="window.location.href='/interface/api_debug'"
-          >调试</button>
-          </h3>
+                  onclick="window.location.href='/interface/add_case'"
+          >创建</button>
 
           <!--<a href="/project_manage_add" >新增</a>-->
           <div class="table-responsive">
@@ -73,29 +82,54 @@
                 </tr>
               </thead>
               <tbody>
-              {% for case_list in case_list %}
+              {% for p_case_list in case_list %}
                 <tr>
-                  <td>{{ case_list.name }}</td>
-                  <td>{{ case_list.url}}</td>
-                  <td>{{ case_list.req_method }}</td>
-                  <td>{{ case_list.req_type}}</td>
-                  <td>{{ case_list.req_header  }}</td>
-                  <td>{{ case_list.req_param  }}</td>
-                  <td>{{ case_list.creator  }}</td>
-                  <td>{{ case_list.create_time | date:"Y-m-d H:i:s"}}</td>
-                  <td>{{ case_list.rsp_assert }}</td>
+                  <td>{{ p_case_list.name }}</td>
+                  <td>{{ p_case_list.url}}</td>
+                  <td>{{ p_case_list.req_method }}</td>
+                  <td>{{ p_case_list.req_type}}</td>
+                  <td>{{ p_case_list.req_header  }}</td>
+                  <td>{{ p_case_list.req_param  }}</td>
+                  <td>{{ p_case_list.creator  }}</td>
+                  <td>{{ p_case_list.create_time | date:"Y-m-d H:i:s"}}</td>
+                  <td>{{ p_case_list.rsp_assert }}</td>
                   <td>
-                  <a id="op_edit{{project_list.id }}" title="编辑" class="glyphicon glyphicon-pencil" href="/manage/manage_edit/{{project_list.id }}"></a>
+                  <a id="op_edit{{project_list.id }}" title="编辑" class="glyphicon glyphicon-pencil" href="/interface/edit_case/{{p_case_list.id}}"></a>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <a id="op_del{{project_list.id }}" title="删除" class="glyphicon glyphicon-trash" href="/manage/manage_delete/{{project_list.id }}"></a>
+                  <a id="op_del{{project_list.id }}" title="删除" class="glyphicon glyphicon-trash" href="/interface/del_case/{{p_case_list.id}}"></a>
                   </td>
                   <td></td>
                   <td></td>
                   <td></td>
                 </tr>
               {% endfor %}
+              <li><a href="#">共:{{  }}</a> </li>
               </tbody>
             </table>
+          </div>
+          <!--列表分页器 -->
+          <div class="pagination">
+              <span class="step-links">
+                  <ul class="pagination">
+                      <!--是否有上一页 -->
+                      {% if case_list.has_previous  %}
+                          <li><a href="?case_name={{ case_name }}&page={{ case_list.previous_page_number }}">&laquo;</a></li>
+                      {% endif %}
+                      <li><a href="#">{{ case_list.number }}</a> </li>
+
+                       <!--是否有下一页 -->
+                      {% if case_list.has_next  %}
+                          {% if case_name %}
+                              <!--Page.next_page_number()[source]：返回下一页的页码。如果下一页不存在，抛出InvalidPage异常。 -->
+                              <li><a href="?case_name={{ case_name }}&page={{ case_list.next_page_number }}">&raquo;</a></li>
+                          {% else %}
+                              <li><a href="?page={{ case_list.next_page_number }}">&raquo;</a></li>
+                          {% endif %}
+                      {% endif %}
+                       <li><a href="#">共：{{ case_list.paginator.num_pages }} 页</a></li>
+                  </ul>
+
+              </span>
           </div>
         </div>
       </form>

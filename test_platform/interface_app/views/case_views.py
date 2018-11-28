@@ -2,9 +2,11 @@ from django.shortcuts import render
 from django.http import Http404
 from django.http import HttpResponse, JsonResponse
 from interface_app.forms import TestCaseForm
-from project_app.models import Module
+from project_app.models import Module,Project
 from interface_app.models import TestCase
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from django.http import HttpResponse,HttpResponseRedirect
 import requests
 import json
 
@@ -15,8 +17,63 @@ def get_project_list(request):
     """
     获取项目/模块列表
     :param request:
-    :return:
+    :return:项目接口列表
     """
+    if request.method == "GET":
+        # 查询模块信息
+        project_list = Project.objects.all()
+        dataList = []# 定义list用于存放所有的项目名称-模块数据
+        for project_data in project_list:#遍历模块表数据
+
+            project_dict = \
+                {
+                    "name": project_data.pname #添加模块名称至数据字典中
+                }
+            # 根据模型查找对应模块数据
+            # print("pid", project_data.id)
+            module_list = Module.objects.filter(project_id=project_data.id)#不能用get！！！！！
+            if len(module_list) != 0:
+                module_name = []
+                for module_data in module_list:
+                    #module_dict = {module_data.id:module_data.mname}
+                    #module_name.append(module_dict)
+                    module_name.append(module_data.mname)
+
+                project_dict["moduleList"] = module_name
+                # print("每一行项目及模块",project_dict)
+                dataList.append(project_dict)
+        return JsonResponse({"success":"true", "data":dataList})
+    else:
+        return HttpResponse("请求无数据")
+
+
+def get_search_case_list(request):
+    """
+    通过查询条件，获取项目/模块列表
+    :param request:
+    :return:项目接口列表
+    """
+    if request.method == "GET":
+        case_name = request.GET.get("case_name")
+        print("case_name=======",case_name)
+        case_list = TestCase.objects.filter(name__contains=case_name)
+        paginator = Paginator(case_list,5)#每页显示5条
+        page = request.GET.get("page")#获取页面分页传的页数
+        try:
+            contacts = paginator.page(page)
+        except PageNotAnInteger:
+            # 如果输入的页数不是整型，则取第一页
+            contacts = paginator.page(1)
+        except EmptyPage:
+            # 如果请求的页数不在合法的页数范围内，返回结果的最后一页
+            contacts = paginator.page(paginator.num_pages)
+
+        return render(request, "case_manage.html", {"type": "list","case_list": contacts,"case_name": case_name})
+    else:
+        return Http404("页面不存在！")
+
+
+
 
 def case_manage(request):
     """
@@ -26,12 +83,24 @@ def case_manage(request):
     """
     if request.method == "GET":
         case_list = TestCase.objects.all()
-        return render(request, "case_manage.html", {"type": "list","case_list": case_list})
+        paginator = Paginator(case_list,5)#每页显示5条
+
+        page = request.GET.get("page")#获取页面分页传的页数
+        try:
+            contacts = paginator.page(page)
+        except PageNotAnInteger:
+            # 如果输入的页数不是整型，则取第一页
+            contacts = paginator.page(1)
+        except EmptyPage:
+            # 如果请求的页数不在合法的页数范围内，返回结果的最后一页
+            contacts = paginator.page(paginator.num_pages)
+
+        return render(request, "case_manage.html", {"type": "list","case_list": contacts})
     else:
         return Http404("页面不存在！")
 
 
-def api_debug(request):
+def add_case(request):
     """
     打开调试页面
     :param request:
@@ -86,7 +155,9 @@ def save_case(request):
     """
 
     if request.method == "POST":
-        module_id = request.POST.get("module")
+        # module_id = request.POST.get("module")
+        module_name = request.POST.get("module")
+        print("module_name",module_name)
         req_name = request.POST.get("req_name")
         url = request.POST.get("req_url")
         method = request.POST.get("req_method")
@@ -97,7 +168,7 @@ def save_case(request):
         print("creator_id==",creator_id)
 
         # 以下参数为空时默认赋空值
-        if (params == "" or module_id == "" or req_name == "" or
+        if (params == "" or module_name == "" or req_name == "" or
                 url == "" or method == "" or req_type == ""):
             return HttpResponse("必填参数为空,请检查!")
 
@@ -109,7 +180,7 @@ def save_case(request):
             req_headers = "{}"
 
         # 根据module_id获取module对象
-        module_obj = Module.objects.get(id=module_id)
+        module_obj = Module.objects.get(mname=module_name)
         # print ("module===", type(module_obj))
 
         # 根据creator_id获取creator对象,用户写入时只需要写入id
@@ -132,3 +203,20 @@ def save_case(request):
         return Http404("请求错误！")
 
 
+def edit_case(request,cid):
+    """删除用例"""
+    if request.method == "POST":
+        return HttpResponse("保存成功")
+    else:
+        return Http404("请求错误！")
+
+
+def del_case(request,cid):
+    """
+    删除用例
+    :param request:
+    :return:
+    """
+    if request.method == "GET":
+        TestCase.objects.get(id=cid).delete()
+        return HttpResponseRedirect("/interface/case_manage/")
