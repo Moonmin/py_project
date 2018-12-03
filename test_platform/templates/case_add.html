@@ -1,0 +1,208 @@
+{% extends "case_manage.html" %}
+{% block case_add %}
+
+
+    <fieldset>
+        <div style="width:80%; margin-left: 20px;">
+            <form action="/debug/" method="get" class="bs-example bs-example-form" role="form" style="margin-top: 30px">
+                <!--<div class="input-group">
+                    <span class="input-group-addon">模块</span>
+                    {{ add_form.module }}
+                </div>-->
+
+            <div class="form-group" style="height: 20px;">
+                <label>项目：</label>
+                <select id="project_name"></select>
+            </div>
+
+            <div class="form-group">
+                <label>模块：</label>
+                <select id="module_name"></select>
+            </div>
+
+                <br>
+                <div class="input-group ">
+                    <span class="input-group-addon">名称</span>
+
+                    <input id="req_name" type="text" class="form-control" placeholder="name">
+                </div>
+                <br>
+
+                <div class="input-group ">
+                    <div class="input-group-btn">
+                        <select name="req_method"  id="req_method" class="form-control" style="
+                            width: 70px;padding:3px 10px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color: #eee;background-size:20%;">
+                            <option value="POST">POST</option>
+                            <option value="GET">GET</option>
+                        </select>
+                    </div><!-- /btn-group -->
+                    <input type="text" id="req_url" class="form-control" placeholder="url">
+                </div><!-- /input-group -->
+
+                <br>
+
+                <div style="margin-top: 10px;">
+                    <label>参数类型：</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="req_type" id="form" value="form" checked> form-data
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="req_type" id="json" value="json"> JSON
+                    </label>
+                </div>
+
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">Header</span>
+                    <input id="req_header" type="text" class="form-control">
+                </div>
+                <p style="color:#8B8989">说明：以字典的方式设置参数，如：{"content-type": "application/json"}</p>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">参数</span>
+                    <input id="req_parameter" type="text" class="form-control">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">创建人</span>
+                    {{ add_form.creator }}
+                </div>
+                <p style="color:#8B8989">说明：以字典的方式设置参数，如：{"id":1, "name":"名称"}</p>
+                <div style="width: 100%; height: 60px;">
+                    <button type="button" class="btn btn-success" id="save" style="float: right;margin-right: 10px;">
+                        保存
+                    </button>
+                    <button type="button" class="btn btn-success" id="send" style="float: right;margin-right: 10px;">
+                        调试
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+        <div style="width:80%; margin-left: 20px;">
+            <p>返回结果：</p>
+            <textarea id="result" class="form-control" rows="10" name=textarea></textarea>
+        </div>
+
+    </fieldset>
+
+     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        // 初始化项目模块选择框
+        ProjectInit('project_name', 'module_name');
+
+
+        // 请求方法组件选择方法时回填
+        $(function () {
+            $(".dropdown-menu li a").click(function () {
+                {#console.log("aaaaaaa")#}
+
+
+            });
+        });
+
+        $(document).ready(function () {
+            $("#send").click(function () {
+                let req_name = $("#req_name").val()
+                //console.log(req_name)
+                let req_url = $("#req_url").val()
+                {#console.log("req_url===",req_url)#}
+                //let req_method = $("input[name='req_method']:checked").val()
+                let req_method = $("select[name='req_method']").val()
+                console.log("req_method===",req_method)
+                let req_type = $("input[name='req_type']:checked").val()
+                console.log(req_type)
+                let req_header = $("#req_header").val()
+                let req_parameter = $("#req_parameter").val()
+                //判断url是否为空
+                if (req_url === "") {
+                    window.alert("请求url不能为空！")
+                }
+                if (req_header === "") {
+                    req_header = "{}"
+                }
+                if (req_parameter === "") {
+
+                    req_parameter = "{}"
+
+                    console.log("req_parameter==" + req_parameter)
+                }
+
+                //发送post请求
+                $.post("/interface/debug_interface/",
+                    {
+                        "req_name": req_name,
+                        "req_url": req_url,
+                        "req_method": req_method,
+                        "req_parameter": req_parameter,
+                        "req_type": req_type,
+                        "req_header": req_header
+
+                    },
+                    function (result) {
+                        //console.log(result)
+                        $("#result").html(result)
+
+                    });
+            });
+
+            //保存
+            $("#save").click(function () {
+                let module = $("select[id='module_name']").val()
+                console.log("module111==" + module)
+                let req_name = $("#req_name").val()
+                //console.log(req_name)
+                let req_url = $("#req_url").val()
+                //let req_method = $("input[name='req_method']:checked").val()
+                let req_method = $("select[name='req_method']").val()
+                let req_type = $("input[name='req_type']:checked").val()
+                let req_header = $("#req_header").val()
+                let req_parameter = $("#req_parameter").val()
+                let creator = $("select[name='creator']").val()
+                //判断module是否为空
+                if (module === "") {
+                    window.alert("请选择对应模块")
+                }
+                else if (req_name === "") {
+                    window.alert("请输入用例名称")
+                }
+                //判断url是否为空
+                else if (req_url === "") {
+                    window.alert("请求url不能为空！")
+                }
+                if (req_header === "") {
+                    req_header = "{}"
+                }
+                if (req_parameter === "") {
+
+                    req_parameter = "{}"
+                }
+
+                //发送post请求
+                $.post("/interface/case_save/",
+                    {
+
+                        "module": module,
+                        "req_name": req_name,
+                        "req_url": req_url,
+                        "req_method": req_method,
+                        "req_parameter": req_parameter,
+                        "req_type": req_type,
+                        "req_header": req_header,
+                        "creator": creator
+
+                    },
+                    function (result) {
+                        //console.log(result)
+                        $("#result").html(result)
+
+                    });
+            });
+
+
+        });
+    </script>
+
+{% endblock %}

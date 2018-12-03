@@ -204,11 +204,22 @@ def save_case(request):
 
 
 def edit_case(request,cid):
-    """删除用例"""
-    if request.method == "POST":
-        return HttpResponse("保存成功")
-    else:
-        return Http404("请求错误！")
+    """编辑用例"""
+    if request.method == "GET":#打开编辑页面
+
+        return render(request, 'case_edit.html', {"type": "edit"})
+
+    else:#提交修改信息
+
+        # 检查表单内容是否有效
+        if form.is_valid():
+            # 读取表单返回的值
+
+            TestCase.objects.filter(id=cid).update()
+            # Project.save()
+            return HttpResponseRedirect("/interface/case_manage/")
+        else:
+            return ""
 
 
 def del_case(request,cid):
@@ -218,5 +229,6 @@ def del_case(request,cid):
     :return:
     """
     if request.method == "GET":
+
         TestCase.objects.get(id=cid).delete()
         return HttpResponseRedirect("/interface/case_manage/")
